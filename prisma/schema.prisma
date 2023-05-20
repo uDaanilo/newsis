@@ -11,11 +11,19 @@ datasource db {
 }
 
 model Veiculo {
-  id          Int     @id @default(autoincrement())
-  placa       String  @db.VarChar(7)
+  id          Int           @id @default(autoincrement())
+  placa       String        @db.VarChar(7)
   rastreado   Boolean
   comprimento Float
   largura     Float
   altura      Float
   cubagem     Float
+  fotos       FotoVeiculo[]
+}
+
+model FotoVeiculo {
+  id         Int     @id @default(autoincrement())
+  veiculo    Veiculo @relation(fields: [veiculo_id], references: [id], onDelete: Cascade)
+  veiculo_id Int
+  picture    Bytes
 }
