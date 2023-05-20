@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watchAll",
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
     "lint": "eslint src --ext .ts --fix"
