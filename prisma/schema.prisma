@@ -9,3 +9,13 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Veiculo {
+  id          Int     @id @default(autoincrement())
+  placa       String  @db.VarChar(7)
+  rastreado   Boolean
+  comprimento Float
+  largura     Float
+  altura      Float
+  cubagem     Float
+}
