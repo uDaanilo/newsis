@@ -3,3 +3,8 @@ services:
     build: .
     volumes:
       - .:/home/app
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
