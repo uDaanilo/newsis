@@ -10,9 +10,6 @@ describe("Vehicle mysql repository tests suite", () => {
 
 	afterEach(async () => {
 		await prisma.veiculo.deleteMany()
-	})
-
-	afterAll(() => {
 		prisma.$disconnect()
 	})
   
@@ -61,7 +58,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			]
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		const vehicles = await vehicleRepository.findAll()
 
 		expect(vehicles).toHaveLength(2)
@@ -81,7 +78,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			width: 1
 		})
     
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 		const newVehicle = await vehicleRepository.findById(vehicle.id)
 
@@ -100,7 +97,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			width: 1
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 		const newVehicle = await vehicleRepository.findById(vehicle.id)
 
@@ -128,7 +125,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			width: 1
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 		const newVehicle = await vehicleRepository.findById(vehicle.id)
 
@@ -162,7 +159,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			tracked: false,
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 		const newVehicle = await vehicleRepository.findById(vehicle.id)
 
@@ -192,7 +189,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			tracked: false,
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 		const newVehicle = await vehicleRepository.findById(vehicle.id)
 
@@ -224,7 +221,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			tracked: false,
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 		await vehicleRepository.findById(vehicle.id)
 
@@ -251,7 +248,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			tracked: false,
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 
 		expect(vehicle.pictures).toHaveLength(1)
@@ -291,7 +288,7 @@ describe("Vehicle mysql repository tests suite", () => {
 			tracked: false,
 		})
 
-		const vehicleRepository = new VehicleMySqlRepository()
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
 		await vehicleRepository.create(vehicle)
 
 		vehicle.removePicture(1)
@@ -303,5 +300,64 @@ describe("Vehicle mysql repository tests suite", () => {
 		expect(updatedVehicle?.pictures).toHaveLength(1)
 		expect(updatedVehicle?.pictures[0].id).toBe(3)
 		expect(updatedVehicle?.pictures[0].file.toString()).toBe("baz")
+	})
+
+	test("should return next vehicle id", async () => {
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
+
+		let nextId = await vehicleRepository.getNextVehicleId()
+
+		expect(nextId).toBe(1)
+
+		const vehicle = new Vehicle({
+			id: 1,
+			cubage: 1,
+			width: 1,
+			height: 1,
+			length: 1,
+			pictures: [],
+			plate: "1234567",
+			tracked: false,
+		})
+
+		await vehicleRepository.create(vehicle)
+
+		nextId = await vehicleRepository.getNextVehicleId()
+    
+		expect(nextId).toBe(2)
+	})
+
+	test("should return next picture id", async () => {
+		const vehicleRepository = new VehicleMySqlRepository(prisma)
+
+		let nextId = await vehicleRepository.getNextPictureId()
+
+		expect(nextId).toBe(1)
+
+		const vehicle = new Vehicle({
+			id: 1,
+			cubage: 1,
+			width: 1,
+			height: 1,
+			length: 1,
+			pictures: [
+				{
+					id: 1,
+					file: Buffer.from("foo")
+				},
+				{
+					id: 2,
+					file: Buffer.from("bar")
+				},
+			],
+			plate: "1234567",
+			tracked: false,
+		})
+
+		await vehicleRepository.create(vehicle)
+
+		nextId = await vehicleRepository.getNextPictureId()
+
+		expect(nextId).toBe(3)
 	})
 })

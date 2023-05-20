@@ -8,4 +8,6 @@ export interface VehicleRepository {
   deleteById(id: number): Promise<void>
   findPicturesByVehicleId(id: number): Promise<VehiclePicture[]>
   findVehiclePictureById(id: number): Promise<VehiclePicture | null>
+  getNextVehicleId(): Promise<number>
+  getNextPictureId(): Promise<number>
 }

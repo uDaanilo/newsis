@@ -3,7 +3,7 @@ import { Vehicle, VehiclePicture } from "../../../domain/vehicle.entity"
 import { VehicleRepository } from "../../../domain/vehicle.repository"
 
 export class VehicleMySqlRepository implements VehicleRepository {
-	private prisma = new PrismaClient()
+	constructor(private prisma: PrismaClient) {}
   
 	async findVehiclePictureById(id: number): Promise<VehiclePicture | null> {
 		const picture = await this.prisma.fotoVeiculo.findFirst({
@@ -164,5 +164,33 @@ export class VehicleMySqlRepository implements VehicleRepository {
 				id
 			}
 		})
+	}
+
+	async getNextVehicleId(): Promise<number> {
+		const lastVehicle = await this.prisma.veiculo.findMany({
+			select: {
+				id: true,
+			},
+			orderBy: {
+				id: "desc"
+			},
+			take: 1
+		})
+
+		return (lastVehicle[0]?.id || 0) + 1
+	}
+
+	async getNextPictureId(): Promise<number> {
+		const lastPic = await this.prisma.fotoVeiculo.findMany({
+			select: {
+				id: true,
+			},
+			orderBy: {
+				id: "desc"
+			},
+			take: 1
+		})
+
+		return (lastPic[0]?.id || 0) + 1
 	}
 }
