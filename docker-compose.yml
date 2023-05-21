@@ -3,6 +3,8 @@ services:
     build: .
     volumes:
       - .:/home/app
+    ports:
+      - 3000:3000
   db:
     image: mysql:8
     restart: always
