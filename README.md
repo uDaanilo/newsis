@@ -49,7 +49,8 @@ Este projeto foi desenvolvido seguindo os conceitos de arquitetura limpa (clean 
 ### 🧪 Executando os testes
 
 - é possivel rodar os testes através dos seguintes comandos
-
+  1. atualize as variáveis em  <kbd>[.env.test](.env.test)</kbd>
+  2. Executando os testes
   ```sh
   # testes unitários
   npm run test
