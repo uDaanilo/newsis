@@ -123,8 +123,16 @@ export class Vehicle {
 		this._cubage = val
 	}
 
-	public addPicture(id: number, file: Buffer)
-	{
+	public updatePicture(id: number, file: Buffer) {
+		const pictureIndex = this.pictures.findIndex(p => p.id === id)
+
+		if(pictureIndex < 0)
+			throw new Error("Picture not found")
+
+		this.pictures[pictureIndex].file = file
+	}
+
+	public addPicture(id: number, file: Buffer) {
 		const pic = {
 			id,
 			file
