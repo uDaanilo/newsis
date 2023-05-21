@@ -143,4 +143,40 @@ describe("create vehicle use case suite tests", () => {
 			.rejects
 			.toThrow("Picture not found")
 	})
+
+	test("should remove a vehicle picture", async () => {
+		const vehicleRepository = new VehicleInMemoryRepository()
+		const createUseCase = new CreateVehicleUseCase(vehicleRepository)
+		const updateUseCase = new UpdateVehicleUseCase(vehicleRepository)
+		const findUseCase = new FindVehicleUseCase(vehicleRepository)
+
+		const input = {
+			cubage: 1,
+			height: 1,
+			length: 1,
+			plate: "1234567",
+			tracked: false,
+			width: 1,
+			pictures: [Buffer.from("foo")]
+		}
+
+		await createUseCase.execute(input)
+
+		expect(vehicleRepository.items.size).toBe(1)
+		expect(vehicleRepository.items.get(1)).toBeDefined()
+
+		await updateUseCase.execute({
+			id: 1,
+			pictures: [
+				{
+					id: 1,
+					file: null
+				}
+			]
+		})
+
+		const vehicle = await findUseCase.execute({ id: 1 })
+
+		expect(vehicle?.pictures).toHaveLength(0)
+	})
 })

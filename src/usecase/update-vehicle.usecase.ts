@@ -23,7 +23,10 @@ export class UpdateVehicleUseCase {
 				vehicle.addPicture(nextPictureId, picture)
 				nextPictureId += 1
 			} else {
-				vehicle.updatePicture(picture.id, picture.file)
+				if(!picture.file)
+					vehicle.removePicture(picture.id)
+				else
+					vehicle.updatePicture(picture.id, picture.file)
 			}
 		}
 

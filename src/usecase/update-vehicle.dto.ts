@@ -8,6 +8,6 @@ export interface InputUpdateVehicleUseCase {
   cubage?: number
   pictures?: Buffer[] | {
     id: number
-    file: Buffer
+    file: Buffer | null
   }[]
 }
