@@ -6,5 +6,8 @@ export interface InputUpdateVehicleUseCase {
   height?: number
   length?: number
   cubage?: number
-  pictures?: Buffer[]
+  pictures?: Buffer[] | {
+    id: number
+    file: Buffer
+  }[]
 }

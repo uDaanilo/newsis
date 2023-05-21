@@ -17,8 +17,14 @@ export class UpdateVehicleUseCase {
 		vehicle.updateTracked(input.tracked ?? vehicle.tracked)
 		vehicle.updateWitdh(input.width ?? vehicle.width)
 
+		let nextPictureId = await this.vehicleRepo.getNextPictureId()
 		for(const picture of input.pictures) {
-			vehicle.addPicture(await this.vehicleRepo.getNextPictureId(), picture)
+			if(picture instanceof Buffer) {
+				vehicle.addPicture(nextPictureId, picture)
+				nextPictureId += 1
+			} else {
+				vehicle.updatePicture(picture.id, picture.file)
+			}
 		}
 
 		await this.vehicleRepo.update(vehicle)
