@@ -1,3 +1,4 @@
+import "dotenv"
 import { Api } from "./config/express"
 
 const api = new Api()
