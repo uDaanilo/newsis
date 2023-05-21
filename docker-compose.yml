@@ -1,6 +1,8 @@
 services:
   app:
     build: .
+    entrypoint: ./entrypoint.sh
+    command: npm run dev
     volumes:
       - .:/home/app
     ports:
