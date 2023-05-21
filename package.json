@@ -9,6 +9,7 @@
     "test:e2e": "jest --config jest.config.e2e.ts --watchAll",
     "build": "tsc",
     "dev": "tsx watch src/infra/api/server",
+    "start": "node dist/src/infra/api/server",
     "lint": "eslint src --ext .ts --fix"
   },
   "keywords": [],
