@@ -2,6 +2,8 @@ import express, { NextFunction, Request, Response } from "express"
 import "express-async-errors"
 import routes from "./routes"
 import { errors } from "celebrate"
+import swaggerUi from "swagger-ui-express"
+import docsFile from "../../../../docs.json"
 
 export class Api {
 	public app = express()
@@ -13,6 +15,8 @@ export class Api {
 	}
 
 	private registerRoutes() {
+		this.app.use("/docs", swaggerUi.serve)
+		this.app.use("/docs", swaggerUi.setup(docsFile))
 		this.app.use(routes)
 	}
 

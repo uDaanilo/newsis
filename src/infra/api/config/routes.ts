@@ -80,7 +80,7 @@ vehicleRouter.put("/:vehicleId/pictures/update/:pictureId",
 			pictureId: Joi.number().required(),
 		}),
 	}),
-	upload.single("fotos"),
+	upload.single("foto"),
 	VehicleController.updatePictureById
 )
 vehicleRouter.delete("/:vehicleId/pictures/delete/:pictureId",
