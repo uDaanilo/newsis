@@ -2,6 +2,8 @@
 
 Este projeto foi desenvolvido seguindo os conceitos de arquitetura limpa (clean architecture)
 
+## ⚠️ O projeto foi públicado em um servidor e pode ser acessado através de [http://168.138.224.105/docs](http://168.138.224.105/docs)
+
 ### ⭐ Tecnologias
 
 - Docker
