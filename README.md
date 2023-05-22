@@ -41,7 +41,11 @@ Este projeto foi desenvolvido seguindo os conceitos de arquitetura limpa (clean 
   ```sh
   mv .example.env .env
   ```
-5. Inicie o projeto
+5. Execute as migrations
+  ```sh
+  npx prisma migrate dev
+  ```
+6. Inicie o projeto
   ```sh
   npm run dev
   ```
