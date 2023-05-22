@@ -270,11 +270,6 @@
             "name": "vehicleId",
             "in": "path",
             "required": true
-          },
-          {
-            "name": "pictureId",
-            "in": "path",
-            "required": true
           }
         ],
         "requestBody": {
