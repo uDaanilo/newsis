@@ -200,7 +200,7 @@ describe("End to End vehicle tests", () => {
 
 		await request(app)
 			.put(`/vehicles/${res.body.id}/pictures/update/${res.body.fotos[0].id}`)
-			.attach("fotos", Buffer.from("bar"), {
+			.attach("foto", Buffer.from("bar"), {
 				filename: "test.png",
 				contentType: "image/png"
 			})
